@@ -13,8 +13,9 @@ def usage() :
 	sys.exit()
 
 class StringPermuter :
-	min_str_len = 4
+	min_str_len = 3
 	max_str_len = 0
+	# On ubuntu, I `apt-get install wamerican` to get this file
 	dictionary_file = "/usr/share/dict/words"
 	word_list = []
 
@@ -31,18 +32,18 @@ class StringPermuter :
 		word = word.lower()
 		return ( word in s.word_set )
 
-	# For each character c in 'chars', append "c" + prefix to 'list'.
+	# For each character c in 'chars', append "c" + prefix to 'output' set.
 	# Also, recursively do stuff to visit all permutations of 'chars'
-	def append_w_prefix(s, prefix, chars, list) :
+	def append_w_prefix(s, prefix, chars, output) :
 		for c in chars : 
 			word = prefix + c
 			if len(word) >= s.min_str_len :
-				list.append(word)
-			remaining_chars = filter(lambda x : (x != c), chars)
-			s.append_w_prefix(word, remaining_chars, list)
+				output.add(word)
+			remaining_chars = chars.replace(c, "", 1)
+			s.append_w_prefix(word, remaining_chars, output)
 
 	def output_words(s) :
-		perms = []
+		perms = set()
 		print "Finding permutations..."
 		s.append_w_prefix("", s.chars, perms)
 		print "Testing words..."
