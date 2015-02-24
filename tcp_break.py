@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 #
 # tcp_break.py: A script to cause TCP connections to fail or disconnect.
 # Currently linux-specific.
@@ -50,7 +49,7 @@ def verify_opts(opts) :
             (opts.list or opts.reset or opts.drop)) :
         die("Must supply destination host and one of list, reset, drop.")
 
-def exit_cleanup() :
+def exit_cleanup(signo=None, stackframe=None) :
     global undo_commands
     dprint("-> exit_cleanup()")
     while undo_commands :
